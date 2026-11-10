@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "F&N",
+    "slug": "fn-private-chat",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "F&N uses your camera for video calls.",
+        "NSMicrophoneUsageDescription": "F&N uses your microphone for calls."
+      },
+      "bundleIdentifier": "com.fn.privatechat"
+    },
+    "android": {
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.fn.privatechat"
+    },
+    "extra": {
+      "serverUrl": "http://127.0.0.1:3000",
+      "iceServers": [
+        {
+          "urls": "stun:stun.l.google.com:19302"
+        }
+      ]
+    },
+    "plugins": [
+      "@config-plugins/react-native-webrtc"
+    ],
+    "newArchEnabled": false
+  }
+}

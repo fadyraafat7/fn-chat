@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: fn-chat
+    runtime: docker
+    plan: free
+    numInstances: 1
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: USER_1
+        value: F
+      - key: USER_2
+        value: N
+      - key: PASSWORD_1
+        sync: false
+      - key: PASSWORD_2
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: CF_TURN_KEY_ID
+        sync: false
+      - key: CF_TURN_API_TOKEN
+        sync: false

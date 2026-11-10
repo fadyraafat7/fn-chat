@@ -1,0 +1,23 @@
+node_modules/
+.expo/
+.env
+server/.env
+server/*.sqlite*
+.tools/
+
+.gradle/
+android/**/build/
+android/**/.cxx/
+android/local.properties
+artifacts/*.apk
+artifacts/*.zip
+
+# Local credentials and native signing material
+**/.env*
+!**/.env.example
+*.keystore
+*.jks
+*.p12
+*.pem
+artifacts/
+*.log
