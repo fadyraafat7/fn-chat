@@ -20,3 +20,12 @@ test('online build requires a remote HTTPS address', () => {
 test('production cannot silently use temporary local SQLite storage', async () => {
   await assert.rejects(openStorage({ NODE_ENV: 'production' }), /DATABASE_URL/);
 });
+
+test('Workers URLs select native WebSocket transport while Node URLs retain Socket.IO', () => {
+  const saved = process.env.FN_SERVER_URL;
+  try {
+    delete process.env.FN_SERVER_URL;
+    assert.equal(configure({ config: { extra: { serverUrl: 'https://fn-chat.example.workers.dev' } } }).extra.serverTransport, 'websocket');
+    assert.equal(configure({ config: { extra: { serverUrl: 'https://fn.example.com' } } }).extra.serverTransport, 'socket.io');
+  } finally { if (saved === undefined) delete process.env.FN_SERVER_URL; else process.env.FN_SERVER_URL = saved; }
+});

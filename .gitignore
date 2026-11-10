@@ -21,3 +21,5 @@ artifacts/*.zip
 *.pem
 artifacts/
 *.log
+.wrangler/
+.dev.vars*

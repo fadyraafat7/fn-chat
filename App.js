@@ -3,8 +3,10 @@ import { AppState, Alert, FlatList, KeyboardAvoidingView, Platform, SafeAreaView
 import Constants from 'expo-constants';
 import CallScreen from './CallScreen';
 import { io } from 'socket.io-client';
+import { createWorkerSocket } from './WorkerSocket';
 
 const serverUrl = Constants.expoConfig?.extra?.serverUrl;
+const connectSocket = Constants.expoConfig?.extra?.serverTransport === 'websocket' ? createWorkerSocket : io;
 const Button = ({ title, onPress, secondary, disabled }) => <TouchableOpacity disabled={disabled} onPress={onPress} style={[styles.button, secondary && styles.secondary, disabled && { opacity: .5 }]}><Text style={[styles.buttonText, secondary && styles.secondaryText]}>{title}</Text></TouchableOpacity>;
 export default function App() {
   const [username, setUsername] = useState(''); const [password, setPassword] = useState('');
@@ -19,7 +21,7 @@ export default function App() {
   const login = () => {
     if (!username.trim() || !password) return Alert.alert('F&N', 'اكتب اسم المستخدم وكلمة المرور');
     if (!serverUrl || serverUrl.includes('YOUR_COMPUTER_IP')) return Alert.alert('إعداد الخادم', 'أضف عنوان الخادم في app.json أولاً.');
-    socket.current?.disconnect(); hasSession.current = false; setMessages([]); setConnecting(true); const s = io(serverUrl, { auth: { username: username.trim(), password }, reconnection: true, reconnectionDelay: 2000, reconnectionDelayMax: 10000, timeout: 75000 }); socket.current = s;
+    socket.current?.disconnect(); hasSession.current = false; setMessages([]); setConnecting(true); const s = connectSocket(serverUrl, { auth: { username: username.trim(), password }, reconnection: true, reconnectionDelay: 2000, reconnectionDelayMax: 10000, timeout: 75000 }); socket.current = s;
     s.on('connect_error', e => { setConnected(false); if (!s.active) { hasSession.current = false; setConnecting(false); setSession(null); s.disconnect(); Alert.alert('تعذر الاتصال', e.message); } });
     s.on('ready', data => { s.auth.sessionToken = data.sessionToken; hasSession.current = true; setConnected(true); setConnecting(false); setPassword(''); setSession(data); setMessages(prev => [...new Map([...data.messages, ...prev].map(m => [m.id, m])).values()].sort((a,b) => a.at - b.at)); });
     s.on('presence', setOnline); s.on('message', m => setMessages(prev => prev.some(item => item.id === m.id) ? prev : [...prev, m]));

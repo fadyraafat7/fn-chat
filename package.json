@@ -8,7 +8,11 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "server": "node server/index.js",
-    "test:server": "node --test tests/server.test.js tests/rtc-config.test.js tests/online-config.test.js"
+    "test:server": "node --test tests/server.test.js tests/rtc-config.test.js tests/online-config.test.js",
+    "test:worker": "node --test tests/worker.test.mjs tests/worker-socket.test.js",
+    "test": "node --test tests/server.test.js tests/rtc-config.test.js tests/online-config.test.js tests/worker.test.mjs tests/worker-socket.test.js",
+    "deploy": "wrangler deploy",
+    "dev:worker": "wrangler dev"
   },
   "dependencies": {
     "@config-plugins/react-native-webrtc": "^13.0.0",
@@ -22,5 +26,8 @@
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "wrangler": "4.160.0"
   }
 }

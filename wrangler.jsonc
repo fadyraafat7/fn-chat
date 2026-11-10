@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "fn-chat",
+  "main": "worker/index.mjs",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "durable_objects": {
+    "bindings": [{ "name": "FN_ROOM", "class_name": "PrivateRoom" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["PrivateRoom"] }],
+  "vars": { "USER_1": "F", "USER_2": "N" },
+  "observability": { "enabled": false }
+}

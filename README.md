@@ -3,11 +3,15 @@
 تطبيق Android وiOS للمحادثة والمكالمات الصوتية والفيديو بين حسابين محددين.
 
 - واجهة React Native / Expo.
-- رسائل محفوظة على PostgreSQL للنشر عبر الإنترنت، أو SQLite للتطوير المحلي.
+- رسائل محفوظة في Durable Object على Cloudflare، أو PostgreSQL لنسخة Node، أو SQLite للتطوير المحلي.
 - مكالمات WebRTC مباشرة مع إشارات اتصال يتحقق منها الخادم، وبيانات TURN مؤقتة.
 - إعادة اتصال عند تغير شبكة الهاتف، ومنع دخول جهازين في الوقت نفسه بالحساب نفسه.
 
-## النشر على Render
+## النشر على Cloudflare Workers
+
+نسخة Workers تستخدم Durable Object واحدًا بتخزين SQLite دائم للحسابين والرسائل، وWebSocket أصليًا مع السكون. إعدادات النشر في `wrangler.jsonc`؛ لا تبنِ Expo للويب. اترك Build command فارغًا واستخدم `npm run deploy`. راجع [دليل Cloudflare](CLOUDFLARE.md) لإعداد الأسرار وبناء APK المتوافق. تحتاج المكالمات إلى TURN مضبوط، والشات يعمل بدونه.
+
+## النشر على Render / خادم Node
 
 ملف `render.yaml` يجهز خدمة Docker على خطة Free، دون قرص مدفوع. تحتاج إلى قاعدة Neon PostgreSQL وخدمة Cloudflare TURN ضمن حدودهما المجانية. راجع [دليل النشر](DEPLOY.md).
 
